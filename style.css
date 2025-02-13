@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    transition: background 0.5s, color 0.5s;
+    line-height: 1.6;
+}
+
+/* Dark Mode (Default - Green Terminal) */
+body.dark {
+    background: black;
+    color: #ffffff;
+}
+
+body.dark .container {
+    border: 4px solid #ffffff;
+    box-shadow: 4px 4px 0px #ffffff;
+}
+
+body.dark ul li {
+    background: #ffffff;
+    color: black;
+}
+
+/* Light Mode (Retro Monochrome) */
+body.light {
+    background: white;
+    color: black;
+}
+
+body.light .container {
+    border: 4px solid black;
+    box-shadow: 4px 4px 0px black;
+}
+
+body.light ul li {
+    background: black;
+    color: white;
+}
+
+/* Container Box */
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-transform: uppercase;
+}
+
+/* List Items */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+/* Footer */
+footer {
+    margin-top: 20px;
+    border-top: 2px dashed;
+    padding-top: 10px;
+}
+
+/* Toggle Button */
+button {
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid;
+    cursor: pointer;
+    font-family: 'Press Start 2P', cursive;
+}
+
+body.dark button {
+    background: black;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+body.light button {
+    background: white;
+    color: black;
+    border-color: black;
+}
+
+section {
+    margin-top: 20px;
+}
