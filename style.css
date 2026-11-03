@@ -294,15 +294,21 @@ body.light .btn-icon {
     overflow: hidden;
 }
 
+.hero-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transform: translateY(var(--parallax-y, 0px));
+    will-change: transform;
+}
+
 .hero-bg {
     position: absolute;
     inset: -20% -10%;
     background:
         radial-gradient(ellipse 80% 50% at 50% -10%, rgba(41, 151, 255, 0.32), transparent 55%),
         radial-gradient(ellipse 60% 40% at 80% 60%, rgba(120, 80, 255, 0.12), transparent 50%);
-    transform: translateY(var(--parallax-y, 0px)) scale(1.05);
-    will-change: transform;
-    pointer-events: none;
+    opacity: var(--hero-bg-opacity, 1);
 }
 
 body.light .hero-bg {
@@ -311,10 +317,157 @@ body.light .hero-bg {
         radial-gradient(ellipse 60% 40% at 80% 60%, rgba(88, 86, 214, 0.08), transparent 50%);
 }
 
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 85% 70% at 50% 42%, #000 20%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 42%, #000 20%, transparent 72%);
+}
+
+body.light .hero-grid {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px);
+}
+
+.hero-orb-parallax {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform;
+    transform: translate3d(var(--orb-x, 0px), var(--orb-y, 0px), 0);
+}
+
+.hero-orb-parallax--1 {
+    --orb-x: calc(var(--orb1-scroll-x, 0px) + var(--orb1-pointer-x, 0px));
+    --orb-y: calc(var(--orb1-scroll-y, 0px) + var(--orb1-pointer-y, 0px));
+    top: 18%;
+    left: 12%;
+}
+
+.hero-orb-parallax--2 {
+    --orb-x: calc(var(--orb2-scroll-x, 0px) + var(--orb2-pointer-x, 0px));
+    --orb-y: calc(var(--orb2-scroll-y, 0px) + var(--orb2-pointer-y, 0px));
+    bottom: 22%;
+    right: 10%;
+}
+
+.hero-orb {
+    position: relative;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.45;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+}
+
+.hero-orb--1 {
+    width: 280px;
+    height: 280px;
+    background: rgba(41, 151, 255, 0.35);
+    animation: hero-orb-orbit-a 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.hero-orb--2 {
+    width: 220px;
+    height: 220px;
+    background: rgba(136, 84, 255, 0.28);
+    animation: hero-orb-orbit-b 26s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: -11s;
+}
+
+@keyframes hero-orb-orbit-a {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.38;
+    }
+    25% {
+        transform: translate(22px, -16px) scale(1.1);
+        opacity: 0.52;
+    }
+    50% {
+        transform: translate(-6px, 20px) scale(0.94);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translate(-24px, -8px) scale(1.06);
+        opacity: 0.48;
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.38;
+    }
+}
+
+@keyframes hero-orb-orbit-b {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.32;
+    }
+    30% {
+        transform: translate(-18px, 12px) scale(1.12);
+        opacity: 0.46;
+    }
+    60% {
+        transform: translate(14px, -22px) scale(0.9);
+        opacity: 0.34;
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.32;
+    }
+}
+
 .hero-content {
     position: relative;
     max-width: 780px;
     z-index: 1;
+    padding: 44px 36px 40px;
+}
+
+.hero-panel {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 45%, rgba(41, 151, 255, 0.06) 100%);
+    background-size: 180% 180%;
+    animation: hero-panel-glow 14s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 32px 80px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    z-index: -1;
+}
+
+body.light .hero-panel {
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.75) 100%);
+    background-size: 180% 180%;
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 28px 60px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes hero-panel-glow {
+    0%, 100% {
+        background-position: 0% 40%;
+    }
+    50% {
+        background-position: 100% 60%;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-content {
+        padding: 32px 22px 28px;
+    }
+
+    .hero-panel {
+        border-radius: 22px;
+    }
 }
 
 .hero-eyebrow {
@@ -820,8 +973,20 @@ body.light .footer-link .brand-github {
         transition: none;
     }
 
-    .hero-bg {
+    .hero-backdrop {
         transform: none;
+    }
+
+    .hero-orb-parallax {
+        transform: none;
+    }
+
+    .hero-orb {
+        animation: none;
+    }
+
+    .hero-panel {
+        animation: none;
     }
 
     .scroll-hint {

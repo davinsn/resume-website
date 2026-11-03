@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nav = document.querySelector(".nav");
     const toggleButton = document.getElementById("toggle-mode");
     const themeIcon = toggleButton?.querySelector(".icon-theme use");
-    const heroBg = document.querySelector(".hero-bg");
+    const heroBackdrop = document.querySelector(".hero-backdrop");
     const yearEl = document.getElementById("year");
 
     if (yearEl) {
@@ -74,13 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
         revealEls.forEach((el) => observer.observe(el));
     }
 
-    if (heroBg && !prefersReducedMotion) {
+    const hero = document.querySelector(".hero");
+
+    if (heroBackdrop && !prefersReducedMotion) {
         let ticking = false;
         const updateParallax = () => {
             const y = window.scrollY;
             const offset = Math.min(y * 0.35, 180);
             document.documentElement.style.setProperty("--parallax-y", `${offset * 0.5}px`);
-            heroBg.style.opacity = String(Math.max(0.4, 1 - y / 900));
+            document.documentElement.style.setProperty(
+                "--hero-bg-opacity",
+                String(Math.max(0.35, 1 - y / 900))
+            );
+
+            document.documentElement.style.setProperty("--orb1-scroll-x", `${y * 0.06}px`);
+            document.documentElement.style.setProperty("--orb1-scroll-y", `${y * 0.18}px`);
+            document.documentElement.style.setProperty("--orb2-scroll-x", `${-y * 0.1}px`);
+            document.documentElement.style.setProperty("--orb2-scroll-y", `${y * 0.32}px`);
+
             ticking = false;
         };
         window.addEventListener(
@@ -94,6 +105,51 @@ document.addEventListener("DOMContentLoaded", () => {
             { passive: true }
         );
         updateParallax();
+
+        if (hero) {
+            const pointer = { x: 0, y: 0, targetX: 0, targetY: 0 };
+            const ease = 0.075;
+
+            hero.addEventListener(
+                "mousemove",
+                (event) => {
+                    const rect = hero.getBoundingClientRect();
+                    pointer.targetX = (event.clientX - rect.left) / rect.width - 0.5;
+                    pointer.targetY = (event.clientY - rect.top) / rect.height - 0.5;
+                },
+                { passive: true }
+            );
+
+            hero.addEventListener("mouseleave", () => {
+                pointer.targetX = 0;
+                pointer.targetY = 0;
+            });
+
+            const animatePointerParallax = () => {
+                pointer.x += (pointer.targetX - pointer.x) * ease;
+                pointer.y += (pointer.targetY - pointer.y) * ease;
+
+                document.documentElement.style.setProperty(
+                    "--orb1-pointer-x",
+                    `${pointer.x * 32}px`
+                );
+                document.documentElement.style.setProperty(
+                    "--orb1-pointer-y",
+                    `${pointer.y * 24}px`
+                );
+                document.documentElement.style.setProperty(
+                    "--orb2-pointer-x",
+                    `${-pointer.x * 40}px`
+                );
+                document.documentElement.style.setProperty(
+                    "--orb2-pointer-y",
+                    `${-pointer.y * 30}px`
+                );
+
+                requestAnimationFrame(animatePointerParallax);
+            };
+            animatePointerParallax();
+        }
     }
 
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
